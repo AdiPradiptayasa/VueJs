@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Singaraja Tech</title>
+       <!-- ionicons -->
+   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+   <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<!-- tailwind css -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="icon" href="/src/images/KA.png" type="image/x-icon" />
+</head>
+
+<body class="bg-black">
+
+
+    <div id="app" class="container mx-auto mt-8">
+        <!-- Header -->
+        <header class="bg-white p-4 shadow-md mb-8 rounded-lg">
+            <!-- Logo dan navigasi -->
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl font-semibold mb-4">
+                    <span class="uppercase text-lg sm:text-xl font-extrabold text-black">Singaraja Tech</span> <br>
+                    <span class="uppercase text-lg sm:text-sm font-extrabold text-gray-900">Jalan Pulau Natuna No 1</span>
+                </h1>
+                <nav class="space-x-4 text-black-500">
+                    <a href="index.html">
+                        <span class="font-semibold">Home</span>
+                    </a>
+                    <a href="#footer">
+                     <span class="font-semibold">Kontak</span>
+                 </a>
+                </nav>
+            </div>
+        </header>
+        <!-- Search Input -->
+        <div class="mt-4 mb-4 rounded-lg"> 
+            <input v-model="searchQuery" @input="filterProducts" type="text" placeholder="Search products..." class="border p-2 w-full rounded-lg">
+        </div>
+
+        <!-- (Produk List) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <!-- Product Cards -->
+            <div v-for="(product, index) in filteredProducts" :key="index" class="bg-white rounded p-4 shadow">
+                <div>
+                    <img class="mx-auto" :src="product.image" width="450" :alt="'foto ' + product.name">
+                </div>
+                <h2 class="text-lg font-semibold">{{ product.name }}</h2>
+                <p class="text-gray-600">{{ product.description }}</p>
+                <p class="mt-2 font-semibold">Price: Rp{{ product.price }}</p>
+                <p v-if="product.discount" class="mt-2 font-semibold text-green-500">Discounted Price: Rp{{ calculateDiscountedPrice(product) }}</p>
+                <button @click="addToCart(product)" class="mt-4 bg-black hover:bg-blue-600 text-white px-4 py-2 rounded">Add to Cart</button>
+            </div>
+        </div>
+
+
+        <!--Keranjang Belanja-->
+        <div class="mt-8 bg-white rounded p-4 shadow">
+            <h2 class="text-xl font-semibold mb-4">Keranjang Belanja</h2>
+            <div v-for="(item, index) in cartItems" :key="index" class="mb-2">
+                <p>{{ item.name }} - Rp{{ item.price }} - Quantity: {{ item.quantity }}</p>
+                <button @click="removeFromCart(index)" class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded">Hapus</button>
+                <button @click="increaseQuantity(index)" class="bg-yellow-500 hover:bg-yellow-600 text-white px-2 py-1 rounded">+</button>
+            </div>
+            <p class="font-semibold">Total Items: {{ totalItems }}</p>
+            <p class="font-semibold">Total Harga: Rp{{ totalPrice }}</p>
+            <div class="cart mt-8">
+                <button @click="checkout" :disabled="isProcessing"
+                    class="relative bg-black  text-white px-10 py-2 rounded-lg">
+                    Checkout
+                    <div v-if="isProcessing"
+                        class="absolute inset-0 flex items-center justify-center bg-yellow-500 text-white opacity-80">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+                        <span class="ml-2">Diproses...</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+        
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+        new Vue({
+            el: "#app",
+            data: {
+                products: [
+                    { name: "VGA RTX 4090 Ti", description: "24GB GDDR6 With Ray Tracing", price: 46500000, image: "img/rtx4090.jpg"},
+                    { name: "Proccesor Ryzen 5 4500G", description: "Proccessor dengan kecepatan tinggi..", price: 260000, image: "img/ryzen5.jpg" },
+                    { name: "SSD NMVe WD-Black 4 Tb", description: "SSD dengan Kecepatan Super..", price: 7000000, image: "img/ssd4tb.jpg" },
+                    { name: "RAM DDR4 Corsair 64Gb", description: "Powerfull With RGB..", price: 5900000, image: "img/ra64gb.jpg" },
+                    { name: "Hardisk 10 TB NAS Server", description: "Hardisk Khusus NAS Server.", price: 10500000, image: "img/hardisk.jpg" },
+                    { name: "Motherboard B450M Hdv-R4", description: "Support Ryzen Gen 3-5..", price: 1200000, image: "img/B450.png" },
+                    { name: "Mouse Razer", description: "Mouse dengan teknologi..", price: 500000, image: "img/razer.jpg"},
+                    { name: "Mic Hyper X Furry", description: "Mic dengan Noise Canceling..", price: 1900000, image: "img/hyperxic.png" },
+                    { name: "Monitor LG-Mk15V 144Hz", description: "Monitor dengan super view..", price: 3000000, image: "img/lg144hz.jpg" },
+                    { name: "Keyboard Rexus MX9", description: "Keyboard Mechanicals Blue Switch..", price: 350000, image: "img/rexus.png"},
+                    { name: "Mousepad Hyper X Furry", description: "Menggunakan bahan berkualitas tinggi..", price: 350000, image: "img/ousepad.jpg" },
+                    { name: "Proccesor Intel i3 9100f", description: "3,5Ghz Upto 4Ghz Overclock..", price: 2500000, image: "img/i39100f.jpg" },
+                  ],
+                cartItems: [],
+                searchQuery: '',
+                isProcessing: false,
+            },
+            computed: {
+                totalItems: function () {
+                    return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+                },
+                totalPrice: function () {
+                    return this.cartItems.reduce((total, item) => {
+                        const product = this.products.find(p => p.name === item.name);
+                        if (product) {
+                            const discountedPrice = product.discount ? (product.price - (product.price * product.discount)) : product.price;
+                            return total + (discountedPrice * item.quantity);
+                        }
+                        return total;
+                    }, 0);
+                },
+                filteredProducts: function () {
+                    const searchQuery = this.searchQuery.toLowerCase();
+                    return this.products.filter(product => {
+                        return product.name.toLowerCase().includes(searchQuery);
+                    });
+                },
+            },
+            methods: {
+                calculateDiscountedPrice: function (product) {
+                    return product.price - (product.price * product.discount);
+                },
+                addToCart: function (product) {
+                    let cartItem = this.cartItems.find(item => item.name === product.name);
+                    if (cartItem) {
+                        cartItem.quantity++;
+                    } else {
+                        this.cartItems.push({ name: product.name, price: product.price, quantity: 1 });
+                    }
+                },
+                removeFromCart: function (index) {
+                    this.cartItems.splice(index, 1);
+                },
+                decreaseQuantity: function (index) {
+                    if (this.cartItems[index].quantity > 1) {
+                        this.cartItems[index].quantity--;
+                    } else {
+                        this.cartItems.splice(index, 1);
+                    }
+                },
+                checkout() {
+                    // Simulasikan proses checkout dengan penundaan selama 2 detik
+                    this.isProcessing = true;
+                    setTimeout(() => {
+                        this.cartItems = [];
+                        this.isProcessing = false;
+                    }, 2000);
+                },
+                filterProducts: function () {
+                    // Tambahkan logika filter produk di sini jika diperlukan
+                },
+            },
+        });
+    </script>
+      <!-- Footer -->
+      <footer class="bg-dark/40" id="footer">
+         <div class="flex flex-col justify-center py-8">
+            <h3 class="text-2xl font-semibold tracking-wide text-center text-white font-DmSans md:text-4xl"> Ingin Memesan ?</h3>
+            <h5 class="mt-8 text-base text-center md:text-2xl text-white">
+               hubungi kontak dibawah ini
+            </h5>
+            <div class="flex flex-row justify-center gap-8 mt-8">
+               <a class="text-3xl text-white transition-all focus:text-yellow-500 hover:scale-110 hover:text-yellow-300"
+                  href="https://instagram.com/ketutadiii?igshid=OGQ5ZDc2ODk2ZA=="> <ion-icon
+                     name="logo-instagram"></ion-icon></a>
+               <a class="text-3xl text-white transition-all focus:text-yellow-500 hover:scale-110 hover:text-yellow-300"
+                  href="https://www.linkedin.com/in/ketut-adi-pradiptayasa-agustana-b60404115/"><ion-icon
+                     name="logo-linkedin"></ion-icon></a>
+               <a class="text-3xl text-white transition-all focus:text-yellow-500 hover:scale-110 hover:text-yellow-300"
+                  href="https://wa.me/+6281916794217"><iconify-icon icon="ion:logo-whatsapp"></iconify-icon>
+            </div>
+         </div>
+         <div class="py-8 border-t border-white-600">
+            <h6 class="text-sm text-white text-center text-xl-300 fill-white">Copyright © 2023 Adi Pradipta. Allright Reserved.</h6>
+         </div>
+      </footer>
+      <!-- Footer -->
+   
+</body>
+</html>

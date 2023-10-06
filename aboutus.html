@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="./dist/style.css" />
+    <!-- ionicons -->
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="icon" href="/src/images/KA.png" type="image/x-icon" />
+
+    <title>Adi Pradiptayasa Portfolio </title>
+</head>
+<style>
+    .swiper-pagination-bullet.swiper-pagination-bullet-active {
+        background: #ffc107;
+    }
+</style>
+
+<body class="bg-black">
+    <!-- Header-->
+    <header class="fixed left-0 right-0 z-50 w-full transition-all duration-500">
+        <div class="container px-4 py-8 mx-auto">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center text-3xl text-white">
+                    <a href="#">MyPorto</a>
+                </div>
+
+                <!-- menu-->
+                <div class="w-auto">
+                    <ul
+                        class="fixed right-0 bg-dark flex flex-col items-center w-full transition-all duration-300 py-8 ease-in-out md:flex-row md:static md:w-auto md:bg-transparent md:py-0 px-7 md:pl-0 top-24 -left-[48rem]">
+                        <li class="py-4 mx-3 md:py-0">
+                            <a href="index.html"
+                                class="text-lg text-white transition-all duration-300 hover:text-yellow-300">Home</a>
+                        </li>
+                        <li class="py-4 mx-3 md:py-0">
+                            <a href="aboutus.html"
+                                class="text-lg text-white transition-all duration-300 hover:text-yellow-300"
+                                transition-all duration-300>Tentang Saya</a>
+                        </li>
+                        <li class="py-4 mx-3 md:py-0">
+                            <a href="shop.html" class="text-lg text-white transition-all duration-300 hover:text-yellow-300"
+                                transition-all duration-300>Toko</a>
+                        </li>
+                        <li class="py-4 mx-3 md:py-0 md:hidden">
+                            <div class="flex items-center text-white transition-all duration-300 hover:text-yellow-300">
+                                <a href="#footer" class="text-lg">let's connect</a>
+                                <ion-icon class="ml-2" name="arrow-forward-outline"></ion-icon>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- menu hamburger -->
+            </div>
+        </div>
+    </header>
+    <!-- Header -->
+    <!-- bg-->
+    <span class="absolute right-0 blur-2xl opacity-70 z-[-1]"><img src="./src/images/design/blur1.svg" alt="" /></span>
+    <!-- bg-->
+
+    <div class="container mx-auto p-4">
+        <div class="bg-white p-6 md:p-10 lg:p-12 xl:p-16 rounded-lg shadow-lg">
+            <div class="flex justify-center">
+                <img src="/src/images/porto.jpg" alt="Adi Pradiptayasa Agustana"
+                    class="w-32 h-32 md:w-48 md:h-48 lg:w-64 lg:h-64 xl:w-72 xl:h-72 rounded-full">
+            </div>
+            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mt-4">Ketut Adi Pradiptayasa Agustana</h1>
+            <p class="text-base md:text-lg text-gray-500">Mahasiswa Ilmu Komputer</p>
+
+            <div class="mt-6">
+                <h2 class="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold">Informasi Kontak</h2>
+                <ul class="list-disc list-inside text-base md:text-lg">
+                    <li>Email: ktadi60@gmail.com</li>
+                    <li>Phone: 081916774217</li>
+                    <li>Website: www.github.com</li>
+                    <li>LinkedIn: www.linkedin.com/in/ketut-adi-pradiptayasa-agustana</li>
+                </ul>
+            </div>
+            <!-- bg-->
+            <span class="absolute blur-2xl -mt-[29rem] -left-16 z-[-1] opacity-70">
+                <img src="./src/images/design/blur2.svg" alt="" />
+            </span>
+            <!-- bg -->
+
+            <div class="mt-6">
+                <h2 class="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold">Riwayat Pendidikan</h2>
+                <p class="text-lg md:text-xl">Mahasiswa Ilmu Komputer Semester III </p>
+                <p class="text-base md:text-lg text-gray-500">Universitas Pendidikan Ganesha</p>
+                <p class="text-lg md:text-xl">Siswa Teknik Komputer dan Jaringan</p>
+                <p class="text-base md:text-lg text-gray-500">SMK Negeri 3 Singaraja</p>
+            </div>
+
+            <div class="mt-6">
+                <h2 class="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold">Pengalaman Kerja</h2>
+                <p class="text-lg md:text-xl">Teknisi Jaringan</p>
+                <p class="text-base md:text-lg text-gray-500">PT Supra Primatama Nusantara - Magang 3 bulan</p>
+                </ul>
+            </div>
+
+            <div class="mt-6">
+                <h2 class="text-xl md:text-2xl lg:text-3xl xl:text-4xl font-semibold">Hobby</h2>
+                <ul class="list-disc list-inside text-base md:text-lg">
+                    <li>Editing Video</li>
+                    <li>Photography</li>
+
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <footer class="bg-dark/40" id="footer">
+        <div class="flex flex-col justify-center py-8">
+            <h5 class="mt-8 text-base text-center md:text-2xl text-slate-300">
+                Platform Sosial Media
+            </h5>
+            <div class="flex flex-row justify-center gap-8 mt-8">
+                <a class="text-3xl text-white transition-all focus:text-yellow-500 hover:scale-110 hover:text-yellow-300"
+                    href="https://instagram.com/ketutadiii?igshid=OGQ5ZDc2ODk2ZA=="> <ion-icon
+                        name="logo-instagram"></ion-icon></a>
+                <a class="text-3xl text-white transition-all focus:text-yellow-500 hover:scale-110 hover:text-yellow-300"
+                    href="https://www.linkedin.com/in/ketut-adi-pradiptayasa-agustana-b60404115/"><ion-icon
+                        name="logo-linkedin"></ion-icon></a>
+                <a class="text-3xl text-white transition-all focus:text-yellow-500 hover:scale-110 hover:text-yellow-300"
+                    href="https://www.youtube.com/c/KetutAdiii"><ion-icon name="logo-youtube"></ion-icon></a>
+            </div>
+        </div>
+        <div class="py-8 border-t border-gray-600">
+            <h6 class="text-base text-center text-slate-300">Copyright © 2023 Adi Pradipta. All right Reserved.</h6>
+        </div>
+    </footer>
+
+    <script src="./src/main.js">
+
+    </script>
+</body>
+
+</html>
